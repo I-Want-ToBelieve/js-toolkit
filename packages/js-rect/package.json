@@ -1,0 +1,29 @@
+{
+  "name": "js-rect",
+  "version": "1.0.0",
+  "description": "JS utilities for managing rects",
+  "keywords": [
+    "js",
+    "utils",
+    "js-rect"
+  ],
+  "author": "Segun Adebayo <sage@adebayosegun.com>",
+  "homepage": "https://github.com/segunadebayo/js-toolkit#readme",
+  "license": "MIT",
+  "main": "dist/js-rect.cjs.js",
+  "module": "dist/js-rect.esm.js",
+  "repository": "https://github.com/segunadebayo/js-tookit/core/tree/main/packages/js-rect",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/segunadebayo/js-tookit/issues"
+  },
+  "scripts": {
+    "clean": "rimraf dist"
+  }
+}

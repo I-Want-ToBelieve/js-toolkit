@@ -1,0 +1,29 @@
+{
+  "name": "js-point",
+  "version": "1.0.0",
+  "description": "JS utility to manage a point in a two-dimensional system",
+  "keywords": [
+    "js",
+    "utils",
+    "js-point"
+  ],
+  "author": "Segun Adebayo <sage@adebayosegun.com>",
+  "homepage": "https://github.com/segunadebayo/js-toolkit#readme",
+  "license": "MIT",
+  "main": "dist/js-point.cjs.js",
+  "module": "dist/js-point.esm.js",
+  "repository": "https://github.com/segunadebayo/js-tookit/core/tree/main/packages/js-point",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/segunadebayo/js-tookit/issues"
+  },
+  "scripts": {
+    "clean": "rimraf dist"
+  }
+}
