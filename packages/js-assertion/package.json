@@ -1,0 +1,41 @@
+{
+  "name": "js-assertion",
+  "version": "1.0.0",
+  "description": "Common type checking utilties for data types",
+  "keywords": [
+    "js",
+    "utils",
+    "js-assertion"
+  ],
+  "author": "Segun Adebayo <sage@adebayosegun.com>",
+  "homepage": "https://github.com/segunadebayo/js-toolkit#readme",
+  "license": "MIT",
+  "main": "dist/js-assertion.cjs.js",
+  "module": "dist/js-assertion.esm.js",
+  "repository": "https://github.com/segunadebayo/js-tookit/core/tree/main/packages/js-assertion",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "array",
+    "object",
+    "number",
+    "dom-event"
+  ],
+  "preconstruct": {
+    "entrypoints": [
+      "array.ts",
+      "object.ts",
+      "number.ts",
+      "dom-event.ts"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/segunadebayo/js-tookit/issues"
+  },
+  "scripts": {
+    "clean": "rimraf dist"
+  }
+}
