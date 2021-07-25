@@ -1,5 +1,5 @@
 {
-  "name": "js-cgline",
+  "name": "@core-graphics/line",
   "version": "0.1.0",
   "description": "JS utilities to convert points to lines",
   "keywords": [
@@ -10,8 +10,8 @@
   "author": "Segun Adebayo <sage@adebayosegun.com>",
   "homepage": "https://github.com/segunadebayo/js-toolkit#readme",
   "license": "MIT",
-  "main": "dist/js-cgline.cjs.js",
-  "module": "dist/js-cgline.esm.js",
+  "main": "dist/core-graphics-line.cjs.js",
+  "module": "dist/core-graphics-line.esm.js",
   "repository": "https://github.com/segunadebayo/js-tookit/core/tree/main/packages/js-cgline",
   "sideEffects": false,
   "files": [
@@ -27,6 +27,6 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "js-cgpoint": "0.1.0"
+    "@core-graphics/point": "0.1.0"
   }
 }

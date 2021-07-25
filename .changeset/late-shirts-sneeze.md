@@ -1,9 +1,9 @@
 ---
 "js-assertion": major
-"js-cgline": major
-"js-cgpoint": major
-"js-cgrect": major
-"js-cgsize": major
+"@core-graphics/line": major
+"@core-graphics/point": major
+"@core-graphics/rect": major
+"@core-graphics/size": major
 ---
 
 Initial release

@@ -1,18 +1,24 @@
 {
-  "name": "js-cgsize",
+  "name": "@core-graphics/point",
   "version": "0.1.0",
-  "description": "JS utility for managing width and height values",
+  "description": "JS utility to manage a point in a two-dimensional system",
   "keywords": [
     "js",
     "utils",
-    "js-cgsize"
+    "point",
+    "core graphics",
+    "foundations",
+    "dom",
+    "event",
+    "math",
+    "geometry"
   ],
   "author": "Segun Adebayo <sage@adebayosegun.com>",
   "homepage": "https://github.com/segunadebayo/js-toolkit#readme",
   "license": "MIT",
-  "main": "dist/js-cgsize.cjs.js",
-  "module": "dist/js-cgsize.esm.js",
-  "repository": "https://github.com/segunadebayo/js-tookit/core/tree/main/packages/js-cgsize",
+  "main": "dist/core-graphics-point.cjs.js",
+  "module": "dist/core-graphics-point.esm.js",
+  "repository": "https://github.com/segunadebayo/js-tookit/core/tree/main/packages/js-cgpoint",
   "sideEffects": false,
   "files": [
     "dist"

@@ -1,9 +1,3 @@
-import { isTouchEvent } from "js-assertion/dom-event"
-
-type DOMPointType = "page" | "client"
-
-type DOMPointerEvent = MouseEvent | TouchEvent | PointerEvent
-
 export type CGPointValue = {
   x: number
   y: number
@@ -29,9 +23,9 @@ export class CGPoint {
   /**
    * Creates a point with the specified `x` and `y` values.
    */
-  constructor(point: CGPointValue) {
-    this.x = point.x
-    this.y = point.y
+  constructor(value: CGPointValue) {
+    this.x = value.x
+    this.y = value.y
   }
 
   /**
@@ -80,7 +74,11 @@ export class CGPoint {
    * e.g `{ "x": 10, "y": 20 }`
    */
   static fromString = (str: string) => {
-    return new CGPoint(JSON.parse(str))
+    const value = JSON.parse(str)
+    if (!CGPoint.is(value)) {
+      throw new TypeError("Invalid CGPoint string representation")
+    }
+    return new CGPoint(value)
   }
 
   static create(x: number, y: number): CGPoint {
@@ -131,7 +129,7 @@ export class CGPoint {
   /**
    * Returns a the distance between two points
    */
-  static distance = (a: CGPoint, b: CGPoint) => {
+  static distance = (a: CGPoint | CGPointValue, b: CGPoint | CGPointValue) => {
     const deltaX = Math.abs(a.x - b.x)
     const deltaY = Math.abs(a.y - b.y)
     return Math.sqrt(deltaX * deltaX + deltaY * deltaY)
@@ -141,13 +139,14 @@ export class CGPoint {
    * Returns a function used to check the closest point
    * from a list of points
    */
-  static closest = (...points: CGPoint[]) => {
-    return (pointToCheck: CGPoint) => {
+  static closest = (...points: CGPointValue[]) => {
+    return (pointToCheck: CGPointValue) => {
       const distances = points.map((point) =>
         CGPoint.distance(point, pointToCheck),
       )
       const closestDistance = Math.min(...distances)
-      return distances.indexOf(closestDistance)
+      const index = distances.indexOf(closestDistance)
+      return points[index]
     }
   }
 
@@ -278,4 +277,30 @@ export class CGPoint {
     this.y = Math.round(this.y)
     return this
   }
+
+  /* -----------------------------------------------------------------------------
+   * Validation
+   * -----------------------------------------------------------------------------*/
+  static is(value: any): value is CGPointValue {
+    return typeof value === "object" && "x" in value && "y" in value
+  }
 }
+
+function isTouchEvent(event: unknown): event is TouchEvent {
+  if (
+    typeof window !== "undefined" &&
+    window.TouchEvent &&
+    event instanceof window.TouchEvent
+  ) {
+    return true
+  }
+
+  return (
+    typeof event === "object" &&
+    Object.prototype.hasOwnProperty.call(event, "touches")
+  )
+}
+
+type DOMPointType = "page" | "client"
+
+type DOMPointerEvent = MouseEvent | TouchEvent | PointerEvent

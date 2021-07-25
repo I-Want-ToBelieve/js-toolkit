@@ -1,5 +1,5 @@
-import { CGPoint, CGPointValue } from "js-cgpoint"
-import { CGSize, CGSizeValue } from "js-cgsize"
+import { CGPoint, CGPointValue } from "@core-graphics/point"
+import { CGSize, CGSizeValue } from "@core-graphics/size"
 
 export type CGRectValue = CGPointValue & CGSizeValue
 
@@ -382,5 +382,12 @@ export class CGRect {
 
   overlaps = (rect: CGRect) => {
     return CGRect.overlaps(this, rect)
+  }
+
+  /* -----------------------------------------------------------------------------
+   * Validation
+   * -----------------------------------------------------------------------------*/
+  static is(value: any): value is CGRect {
+    return typeof value === "object" && CGSize.is(value) && CGPoint.is(value)
   }
 }

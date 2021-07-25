@@ -176,4 +176,11 @@ export class CGSize {
   isEqual = (size: CGSize) => {
     return CGSize.isEqual(this, size)
   }
+
+  /* -----------------------------------------------------------------------------
+   * Validation
+   * -----------------------------------------------------------------------------*/
+  static is(value: any): value is CGSize {
+    return typeof value === "object" && "width" in value && "height" in value
+  }
 }

@@ -1,4 +1,4 @@
-import { CGPoint } from "js-cgpoint"
+import { CGPoint } from "@core-graphics/point"
 
 export class Line {
   constructor(public start: CGPoint, public end: CGPoint) {}
