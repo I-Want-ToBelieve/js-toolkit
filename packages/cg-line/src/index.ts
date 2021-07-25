@@ -1,5 +1,10 @@
 import { CGPoint, CGPointValue, CGOffsetValue } from "@core-graphics/point"
 
+export type CGLineValue = {
+  start: CGPointValue
+  end: CGPointValue
+}
+
 /**
  * The class that provides a two-dimensional vector.
  */
@@ -39,12 +44,19 @@ export class CGLine {
    * Special Values or Methods
    * -----------------------------------------------------------------------------*/
 
+  get value() {
+    return {
+      start: this.start.value,
+      end: this.end.value,
+    }
+  }
+
   toString = () => {
     return JSON.stringify(this.toJSON())
   }
 
   toJSON = () => {
-    return { start: this.start.toJSON(), end: this.end.toJSON() }
+    return this.value
   }
 
   /* -----------------------------------------------------------------------------
@@ -169,5 +181,16 @@ export class CGLine {
    */
   get angle() {
     return CGPoint.angle(this.start, this.end)
+  }
+
+  /* -----------------------------------------------------------------------------
+   * Validation
+   * -----------------------------------------------------------------------------*/
+
+  /**
+   * Returns whether a value represents a point
+   */
+  static is(value: any): value is CGLineValue {
+    return typeof value === "object" && "start" in value && "end" in value
   }
 }
