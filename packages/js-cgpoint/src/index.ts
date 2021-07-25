@@ -206,8 +206,17 @@ export class CGPoint {
   }
 
   /* -----------------------------------------------------------------------------
-   * Gemotric Operators
+   * Gemotric Operations
    * -----------------------------------------------------------------------------*/
+
+  /**
+   * Sets the x and y values of the point
+   */
+  set = (point: CGPointValue) => {
+    this.x = point.x
+    this.y = point.y
+    return this
+  }
 
   /**
    * Returns the negated version of the point
@@ -221,7 +230,7 @@ export class CGPoint {
   /**
    * Adds multiple points to `this` point
    */
-  add = (...points: CGPoint[]) => {
+  add = (...points: CGPointValue[]) => {
     points.forEach((point) => {
       this.x += point.x
       this.y += point.y

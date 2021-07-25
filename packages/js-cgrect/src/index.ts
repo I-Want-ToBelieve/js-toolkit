@@ -1,22 +1,22 @@
 import { CGPoint, CGPointValue } from "js-cgpoint"
+import { CGSize, CGSizeValue } from "js-cgsize"
 
-type SizeValue = {
-  height: number
-  width: number
-}
+export type CGRectValue = CGPointValue & CGSizeValue
 
-export type RectValue = CGPointValue & SizeValue
-
-type RectPoints = [CGPoint, CGPoint, CGPoint, CGPoint]
+type CGRectPoints = [CGPoint, CGPoint, CGPoint, CGPoint]
 
 /**
  * A structure that contains the location and dimensions of a rectangle.
  */
-export class Rect {
-  height: number
-  width: number
-  x: number
-  y: number
+export class CGRect {
+  /**
+   * A point that specifies the coordinates of the rectangle’s origin.
+   */
+  origin: CGPoint
+  /**
+   * A size that specifies the height and width of the rectangle.
+   */
+  size: CGSize
 
   /* -----------------------------------------------------------------------------
    * Creating a Rectangle
@@ -25,18 +25,16 @@ export class Rect {
   /**
    * Creates a rectangle with the specified origin and size.
    */
-  constructor(public value: RectValue) {
-    this.height = value.height
-    this.width = value.width
-    this.x = value.x
-    this.y = value.y
+  constructor(value: CGRectValue) {
+    this.origin = new CGPoint(value)
+    this.size = new CGSize(value)
   }
 
   /**
    * Creates a rectangle from an HTML element
    */
   static fromElement = (el: HTMLElement) => {
-    return new Rect(el.getBoundingClientRect())
+    return new CGRect(el.getBoundingClientRect())
   }
 
   /**
@@ -52,7 +50,7 @@ export class Rect {
     const width = Math.max(...xValues) - x
     const height = Math.max(...yValues) - y
 
-    return new Rect({ x, y, width, height })
+    return new CGRect({ x, y, width, height })
   }
 
   /* -----------------------------------------------------------------------------
@@ -62,31 +60,47 @@ export class Rect {
   /**
    * The rectangle whose origin and size are both zero.
    */
-  static zero = new Rect({ x: 0, y: 0, width: 0, height: 0 })
+  static zero = new CGRect({ x: 0, y: 0, width: 0, height: 0 })
 
   /**
    * Creates a rectangle with origin (0,0) and size (0,0).
    */
   static init = () => {
-    return new Rect(Rect.zero)
+    return new CGRect(CGRect.zero)
+  }
+
+  /**
+   * Returns a string representation of the rect
+   */
+  toString = () => {
+    return JSON.stringify(this)
+  }
+
+  /**
+   * Returns the JSON representation of the rect
+   */
+  toJSON = () => {
+    return Object.assign({}, this.origin.value, this.size.value)
   }
 
   /* -----------------------------------------------------------------------------
    * Geometric Properties
    * -----------------------------------------------------------------------------*/
 
-  /**
-   * A point that specifies the coordinates of the rectangle’s origin.
-   */
-  get origin() {
-    return new CGPoint({ x: this.x, y: this.y })
+  get x() {
+    return this.origin.x
   }
 
-  /**
-   * A size that specifies the height and width of the rectangle.
-   */
-  get size() {
-    return { width: this.width, height: this.height }
+  get y() {
+    return this.origin.y
+  }
+
+  get width() {
+    return this.size.width
+  }
+
+  get height() {
+    return this.size.height
   }
 
   /**
@@ -134,46 +148,71 @@ export class Rect {
   /**
    * Returns the center point (x, y) of the rectangle
    */
-  get center() {
+  get centerPoint() {
     return new CGPoint({ x: this.midX, y: this.midY })
+  }
+
+  get topLeftPoint() {
+    return new CGPoint({ x: this.minX, y: this.minY })
+  }
+
+  get topRightPoint() {
+    return new CGPoint({ x: this.maxX, y: this.minY })
+  }
+
+  get bottomLeftPoint() {
+    return new CGPoint({ x: this.minX, y: this.maxY })
+  }
+
+  get bottomRightPoint() {
+    return new CGPoint({ x: this.maxX, y: this.maxY })
   }
 
   /**
    * Returns the co-ordinates of the rectangle corners/edges
    */
-  get corners(): RectPoints {
+  get cornerPoints(): CGRectPoints {
     return [
-      new CGPoint({ x: this.minX, y: this.minY }),
-      new CGPoint({ x: this.minX, y: this.maxY }),
-      new CGPoint({ x: this.maxX, y: this.minY }),
-      new CGPoint({ x: this.maxX, y: this.maxY }),
+      this.topLeftPoint,
+      this.topRightPoint,
+      this.bottomRightPoint,
+      this.bottomLeftPoint,
     ]
+  }
+
+  get topCenterPoint() {
+    return new CGPoint({ x: this.midX, y: this.minY })
+  }
+
+  get rightCenterPoint() {
+    return new CGPoint({ x: this.maxX, y: this.midY })
+  }
+
+  get bottomCenterPoint() {
+    return new CGPoint({ x: this.midX, y: this.maxY })
+  }
+
+  get leftCenterPoint() {
+    return new CGPoint({ x: this.minX, y: this.midY })
   }
 
   /**
    * Returns the mid-point values of the rectangle's edges
    */
-  get midPoints(): RectPoints {
+  get midPoints(): CGRectPoints {
     return [
-      new CGPoint({ x: this.midX, y: this.minY }),
-      new CGPoint({ x: this.maxX, y: this.midY }),
-      new CGPoint({ x: this.midX, y: this.maxY }),
-      new CGPoint({ x: this.minX, y: this.midY }),
+      this.topCenterPoint,
+      this.rightCenterPoint,
+      this.bottomCenterPoint,
+      this.leftCenterPoint,
     ]
-  }
-
-  /**
-   * Returns the aspect ratio of the rectangle
-   */
-  get aspectRatio() {
-    return this.width / this.height
   }
 
   /**
    * Returns whether the rectangle is empty
    */
   get isEmpty() {
-    return this.width === 0 && this.height === 0
+    return this.size.isEmpty
   }
 
   /**
@@ -181,73 +220,41 @@ export class Rect {
    */
   get edges() {
     return {
-      top: [
-        new CGPoint({ x: this.x, y: this.y }),
-        new CGPoint({ x: this.maxX, y: this.y }),
-      ],
-      right: [
-        new CGPoint({ x: this.maxX, y: this.y }),
-        new CGPoint({ x: this.maxX, y: this.maxY }),
-      ],
-      bottom: [
-        new CGPoint({ x: this.x, y: this.maxY }),
-        new CGPoint({ x: this.maxX, y: this.maxY }),
-      ],
-      left: [
-        new CGPoint({ x: this.x, y: this.y }),
-        new CGPoint({ x: this.x, y: this.maxY }),
-      ],
+      top: [this.topLeftPoint, this.topRightPoint],
+      right: [this.topRightPoint, this.bottomRightPoint],
+      bottom: [this.bottomLeftPoint, this.bottomRightPoint],
+      left: [this.topLeftPoint, this.bottomLeftPoint],
     }
   }
 
   /* -----------------------------------------------------------------------------
-   * Rectangle Transformations and Operations
+   * Geometric Operations
    * -----------------------------------------------------------------------------*/
 
-  inflate = (value: number) => {
-    if (value === 0) return this
-    const doubleValue = 2 * value
-    Object.assign(this, {
-      x: this.x - value,
-      y: this.y - value,
-      width: this.width + doubleValue,
-      height: this.height + doubleValue,
+  /**
+   * Returns a new CGrectangle with edges moved outwards by the given delta.
+   */
+  inflate = (delta: number) => {
+    this.origin.add({ x: delta, y: delta })
+    this.size.set({
+      width: this.width - 1 * delta,
+      height: this.height - 1 * delta,
     })
     return this
   }
 
-  inset = (factor: number) => {
-    return {
-      x: this.x + factor,
-      y: this.y + factor,
-      width: Math.max(0, this.width - 2 * factor),
-      height: Math.max(0, this.height - 2 * factor),
-    }
+  /**
+   * Returns a new CGrectangle with its origin shifted by the specified delta
+   */
+  shift = (delta: { dx: number | undefined; dy: number | undefined }) => {
+    const { dx = 0, dy = 0 } = delta
+    this.origin.add({ x: dx, y: dy })
+    return this
   }
 
   /**
-   * Returns a new rectangle with its origin shifted by the specified delta
+   * Returns the rect with values rounded to nearest pixel value.
    */
-  offset = (delta: { dx: number; dy: number }) => {
-    const xOffset = typeof delta.dx === "number" ? delta.dx : 0
-    const yOffset = typeof delta.dy === "number" ? delta.dy : 0
-    this.x += xOffset
-    this.y += yOffset
-    return this
-  }
-
-  multiply = (factor: number) => {
-    this.x *= factor
-    this.y *= factor
-    this.width *= factor
-    this.height *= factor
-    return this
-  }
-
-  divide = (factor: number) => {
-    return this.multiply(1 / factor)
-  }
-
   pixelAlign = () => {
     const x = Math.round(this.x)
     const y = Math.round(this.y)
@@ -258,13 +265,57 @@ export class Rect {
     const width = Math.max(rectMaxX - x, 0)
     const height = Math.max(rectMaxY - y, 0)
 
-    Object.assign(this, { x, y, width, height })
+    this.origin.set({ x, y })
+    this.size.set({ width, height })
     return this
   }
 
   /* -----------------------------------------------------------------------------
-   * Checking Characteristics
+   * Geometric Assertions
    * -----------------------------------------------------------------------------*/
+
+  /**
+   * Returns whether two CGRects are equal
+   */
+  static isEqual = (a: CGRect | undefined, b: CGRect | undefined) => {
+    if (!a || !b) return false
+    return a.origin.isEqual(b.origin) && a.size.isEqual(b.size)
+  }
+
+  /**
+   * Returns whether two CGRects overlaps horizontally
+   */
+  static overlapsHorizontally = (rectA: CGRect, rectB: CGRect) => {
+    const aMax = rectA.maxX
+    const bMax = rectB.maxX
+    return aMax > rectB.x && bMax > rectA.x
+  }
+
+  /**
+   * Returns whether two CGRects overlaps vertically
+   */
+  static overlapsVertically = (rectA: CGRect, rectB: CGRect) => {
+    const aMax = rectA.maxY
+    const bMax = rectB.maxY
+    return aMax > rectB.y && bMax > rectA.y
+  }
+
+  /**
+   * Returns whether two CGRects overlaps
+   */
+  static overlaps = (rectA: CGRect, rectB: CGRect) => {
+    return (
+      CGRect.overlapsHorizontally(rectA, rectB) ||
+      CGRect.overlapsVertically(rectA, rectB)
+    )
+  }
+
+  /**
+   * Returns whether this rect is equal to the given rect
+   */
+  isEqual = (rect: CGRect) => {
+    return CGRect.isEqual(this, rect)
+  }
 
   /**
    * Returns whether a rectangle contains a specified point.
@@ -285,8 +336,8 @@ export class Rect {
   /**
    * Checks if a rectangle contains another rectangle
    */
-  containsRect = (rect: Rect) => {
-    for (const point of rect.corners) {
+  containsRect = (rect: CGRect) => {
+    for (const point of rect.cornerPoints) {
       if (!this.containsPoint(point)) {
         return false
       }
@@ -297,7 +348,7 @@ export class Rect {
   /**
    * Checks if a rectangle interesects another rectangle
    */
-  intersects = (rect: Rect) => {
+  intersects = (rect: CGRect) => {
     return (
       this.x < rect.maxX &&
       this.y < rect.maxY &&
@@ -329,40 +380,7 @@ export class Rect {
     return CGPoint.distance(to, CGPoint.zero)
   }
 
-  /**
-   * Returns a string representation of the rect
-   */
-  toString = () => {
-    return JSON.stringify(this.value)
-  }
-
-  static isEqual = (a: Rect | undefined, b: Rect | undefined) => {
-    if (!a || !b) return false
-    return ["x", "y", "width", "height"].every((key) => a[key] === b[key])
-  }
-
-  toOrigin = () => {
-    this.x = 0
-    this.y = 0
-    return this
-  }
-
-  setSize = (size: Partial<SizeValue>, lockAspectRatio = false) => {
-    let width = size.width != null ? size.width : this.width
-    let height = size.height != null ? size.height : this.height
-
-    if (lockAspectRatio) {
-      if (size.width == null && size.height != null) {
-        width = size.height * this.aspectRatio
-      }
-
-      if (size.width != null && size.height == null && this.aspectRatio) {
-        height = size.width / this.aspectRatio
-      }
-    }
-
-    this.width = width
-    this.height = height
-    return this
+  overlaps = (rect: CGRect) => {
+    return CGRect.overlaps(this, rect)
   }
 }

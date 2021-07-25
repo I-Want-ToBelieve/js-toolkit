@@ -1,18 +1,18 @@
 {
-  "name": "js-cgrect",
+  "name": "js-cgsize",
   "version": "1.0.0",
-  "description": "JS utilities for managing rects",
+  "description": "JS utility for managing width and height values",
   "keywords": [
     "js",
     "utils",
-    "js-cgrect"
+    "js-cgsize"
   ],
   "author": "Segun Adebayo <sage@adebayosegun.com>",
   "homepage": "https://github.com/segunadebayo/js-toolkit#readme",
   "license": "MIT",
-  "main": "dist/js-cgrect.cjs.js",
-  "module": "dist/js-cgrect.esm.js",
-  "repository": "https://github.com/segunadebayo/js-tookit/tree/main/packages/js-cgrect",
+  "main": "dist/js-cgsize.cjs.js",
+  "module": "dist/js-cgsize.esm.js",
+  "repository": "https://github.com/segunadebayo/js-tookit/core/tree/main/packages/js-cgsize",
   "sideEffects": false,
   "files": [
     "dist"
@@ -25,9 +25,5 @@
   },
   "scripts": {
     "clean": "rimraf dist"
-  },
-  "dependencies": {
-    "js-cgpoint": "1.0.0",
-    "js-cgsize": "1.0.0"
   }
 }
