@@ -55,10 +55,15 @@ export class CGSize {
   }
 
   /**
-   * Creates a size from the string representation of a size.
+   * Creates a point from the JSON string representation of a point.
+   * e.g `{ "width": 10, "height": 20 }`
    */
   static fromString = (str: string) => {
-    return new CGSize(JSON.parse(str))
+    const value = JSON.parse(str)
+    if (!CGSize.is(value)) {
+      throw new TypeError("Invalid CGSize string representation")
+    }
+    return new CGSize(value)
   }
 
   /* -----------------------------------------------------------------------------

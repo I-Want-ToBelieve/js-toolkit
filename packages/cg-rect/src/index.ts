@@ -1,4 +1,4 @@
-import { CGPoint, CGPointValue } from "@core-graphics/point"
+import { CGOffsetValue, CGPoint, CGPointValue } from "@core-graphics/point"
 import { CGSize, CGSizeValue } from "@core-graphics/size"
 
 export type CGRectValue = CGPointValue & CGSizeValue
@@ -40,7 +40,7 @@ export class CGRect {
   /**
    * Creates a rectangle from a set of points
    */
-  static fromPoints = (...points: CGPoint[]) => {
+  static fromPoints = (...points: CGPointValue[]) => {
     const xValues = points.map((point) => point.x)
     const yValues = points.map((point) => point.y)
 
@@ -53,6 +53,13 @@ export class CGRect {
     return new CGRect({ x, y, width, height })
   }
 
+  /**
+   * Creates a Rect from specified point and size as arguments
+   */
+  static create = (x: number, y: number, width: number, height: number) => {
+    return new CGRect({ x, y, width, height })
+  }
+
   /* -----------------------------------------------------------------------------
    * Special Values
    * -----------------------------------------------------------------------------*/
@@ -60,7 +67,9 @@ export class CGRect {
   /**
    * The rectangle whose origin and size are both zero.
    */
-  static zero = new CGRect({ x: 0, y: 0, width: 0, height: 0 })
+  static get zero() {
+    return new CGRect({ x: 0, y: 0, width: 0, height: 0 })
+  }
 
   /**
    * Creates a rectangle with origin (0,0) and size (0,0).
@@ -81,6 +90,10 @@ export class CGRect {
    */
   toJSON = () => {
     return Object.assign({}, this.origin.value, this.size.value)
+  }
+
+  get value() {
+    return this.toJSON()
   }
 
   /* -----------------------------------------------------------------------------
@@ -146,26 +159,38 @@ export class CGRect {
   }
 
   /**
-   * Returns the center point (x, y) of the rectangle
+   * The point to the intersection of the top and left edges of the Rect.
    */
-  get centerPoint() {
-    return new CGPoint({ x: this.midX, y: this.midY })
-  }
-
   get topLeftPoint() {
     return new CGPoint({ x: this.minX, y: this.minY })
   }
 
+  /**
+   * The point to the intersection of the top and right edges of the Rect.
+   */
   get topRightPoint() {
     return new CGPoint({ x: this.maxX, y: this.minY })
   }
 
+  /**
+   * The point to the intersection of the bottom and left edges of the Rect.
+   */
   get bottomLeftPoint() {
     return new CGPoint({ x: this.minX, y: this.maxY })
   }
 
+  /**
+   * The point to the intersection of the bottom and right edges of the Rect
+   */
   get bottomRightPoint() {
     return new CGPoint({ x: this.maxX, y: this.maxY })
+  }
+
+  /**
+   * Returns the center point (x, y) of the rectangle
+   */
+  get centerPoint() {
+    return new CGPoint({ x: this.midX, y: this.midY })
   }
 
   /**
@@ -180,18 +205,30 @@ export class CGRect {
     ]
   }
 
+  /**
+   * The center point of the top edge of the Rect
+   */
   get topCenterPoint() {
     return new CGPoint({ x: this.midX, y: this.minY })
   }
 
+  /**
+   * The center point of the right edge of the Rect
+   */
   get rightCenterPoint() {
     return new CGPoint({ x: this.maxX, y: this.midY })
   }
 
+  /**
+   * The center point of the bottom edge of the Rect
+   */
   get bottomCenterPoint() {
     return new CGPoint({ x: this.midX, y: this.maxY })
   }
 
+  /**
+   * The center point of the left edge of the Rect.
+   */
   get leftCenterPoint() {
     return new CGPoint({ x: this.minX, y: this.midY })
   }
@@ -199,7 +236,7 @@ export class CGRect {
   /**
    * Returns the mid-point values of the rectangle's edges
    */
-  get midPoints(): CGRectPoints {
+  get centerPoints(): CGRectPoints {
     return [
       this.topCenterPoint,
       this.rightCenterPoint,
@@ -232,7 +269,7 @@ export class CGRect {
    * -----------------------------------------------------------------------------*/
 
   /**
-   * Returns a new CGrectangle with edges moved outwards by the given delta.
+   * Returns a new Rect with edges moved outwards by the given delta.
    */
   inflate = (delta: number) => {
     this.origin.add({ x: delta, y: delta })
@@ -244,10 +281,10 @@ export class CGRect {
   }
 
   /**
-   * Returns a new CGrectangle with its origin shifted by the specified delta
+   * Returns a new Rect with its origin shifted by the specified offset
    */
-  shift = (delta: { dx: number | undefined; dy: number | undefined }) => {
-    const { dx = 0, dy = 0 } = delta
+  shift = (offset: Partial<CGOffsetValue>) => {
+    const { dx = 0, dy = 0 } = offset
     this.origin.add({ x: dx, y: dy })
     return this
   }
@@ -283,34 +320,6 @@ export class CGRect {
   }
 
   /**
-   * Returns whether two CGRects overlaps horizontally
-   */
-  static overlapsHorizontally = (rectA: CGRect, rectB: CGRect) => {
-    const aMax = rectA.maxX
-    const bMax = rectB.maxX
-    return aMax > rectB.x && bMax > rectA.x
-  }
-
-  /**
-   * Returns whether two CGRects overlaps vertically
-   */
-  static overlapsVertically = (rectA: CGRect, rectB: CGRect) => {
-    const aMax = rectA.maxY
-    const bMax = rectB.maxY
-    return aMax > rectB.y && bMax > rectA.y
-  }
-
-  /**
-   * Returns whether two CGRects overlaps
-   */
-  static overlaps = (rectA: CGRect, rectB: CGRect) => {
-    return (
-      CGRect.overlapsHorizontally(rectA, rectB) ||
-      CGRect.overlapsVertically(rectA, rectB)
-    )
-  }
-
-  /**
    * Returns whether this rect is equal to the given rect
    */
   isEqual = (rect: CGRect) => {
@@ -320,7 +329,7 @@ export class CGRect {
   /**
    * Returns whether a rectangle contains a specified point.
    */
-  containsPoint = (point: CGPoint) => {
+  containsPoint = (point: CGPointValue) => {
     if (point.x < this.minX) return false
     if (point.x > this.maxX) return false
 
@@ -346,21 +355,71 @@ export class CGRect {
   }
 
   /**
-   * Checks if a rectangle interesects another rectangle
+   * Returns whether a Point or Rect is within this Rect
    */
-  intersects = (rect: CGRect) => {
+  contains = (pointOrRect: CGRectValue | CGPointValue) => {
+    if (pointOrRect instanceof CGRect) {
+      return this.containsRect(pointOrRect)
+    } else {
+      return this.containsPoint(pointOrRect)
+    }
+  }
+
+  /**
+   * Checks if a Rect interesects another Rect
+   */
+  static intersects = (rectA: CGRect, rectB: CGRect) => {
     return (
-      this.x < rect.maxX &&
-      this.y < rect.maxY &&
-      this.maxX > rect.x &&
-      this.maxY > rect.y
+      rectA.x < rectB.maxX &&
+      rectA.y < rectB.maxY &&
+      rectA.maxX > rectB.x &&
+      rectA.maxY > rectB.y
     )
+  }
+
+  intersects = (rect: CGRect) => {
+    return CGRect.intersects(this, rect)
+  }
+
+  /**
+   * Returns a new Rect that represents the intersection between two Rects
+   */
+  static intersection = (rect1: CGRect, rect2: CGRect) => {
+    const x = Math.max(rect1.x, rect2.x)
+    const x2 = Math.min(rect1.x + rect1.width, rect2.x + rect2.width)
+    const y = Math.max(rect1.y, rect2.y)
+    const y2 = Math.min(rect1.y + rect1.height, rect2.y + rect2.height)
+    return new CGRect({ x, y, width: x2 - x, height: y2 - y })
+  }
+
+  /**
+   * Returns a new Rect that is the intersection of this Rect and the given Rect.
+   */
+  intersection = (rect: CGRect) => {
+    return CGRect.intersection(this, rect)
+  }
+
+  /**
+   * Returns a new Rect that represents the union between multiple Rects
+   */
+  static merge = (...rects: CGRect[]) => {
+    const min = {
+      x: Math.min(...rects.map((rect) => rect.minX)),
+      y: Math.min(...rects.map((rect) => rect.minY)),
+    }
+
+    const max = {
+      x: Math.max(...rects.map((rect) => rect.maxX)),
+      y: Math.max(...rects.map((rect) => rect.maxY)),
+    }
+
+    return CGRect.fromPoints(min, max)
   }
 
   /**
    * Returns the distance of a rect from a point
    */
-  distanceFromPoint = (point: CGPoint) => {
+  distanceFromPoint = (point: CGPointValue) => {
     let x = 0
     let y = 0
 
@@ -380,13 +439,10 @@ export class CGRect {
     return CGPoint.distance(to, CGPoint.zero)
   }
 
-  overlaps = (rect: CGRect) => {
-    return CGRect.overlaps(this, rect)
-  }
-
   /* -----------------------------------------------------------------------------
    * Validation
    * -----------------------------------------------------------------------------*/
+
   static is(value: any): value is CGRect {
     return typeof value === "object" && CGSize.is(value) && CGPoint.is(value)
   }

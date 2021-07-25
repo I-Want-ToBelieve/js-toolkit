@@ -3,6 +3,11 @@ export type CGPointValue = {
   y: number
 }
 
+export type CGOffsetValue = {
+  dx: number
+  dy: number
+}
+
 /**
  * A utility class for representing two-dimensional positions.
  */
@@ -83,6 +88,13 @@ export class CGPoint {
 
   static create(x: number, y: number): CGPoint {
     return new CGPoint({ x, y })
+  }
+
+  /**
+   * Creates a new Point instance with the same values
+   */
+  clone = () => {
+    return new CGPoint(this)
   }
 
   /* -----------------------------------------------------------------------------
@@ -281,6 +293,10 @@ export class CGPoint {
   /* -----------------------------------------------------------------------------
    * Validation
    * -----------------------------------------------------------------------------*/
+
+  /**
+   * Returns whether a value represents a point
+   */
   static is(value: any): value is CGPointValue {
     return typeof value === "object" && "x" in value && "y" in value
   }
