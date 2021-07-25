@@ -1,6 +1,6 @@
 {
   "name": "js-cgpoint",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "JS utility to manage a point in a two-dimensional system",
   "keywords": [
     "js",
@@ -27,6 +27,6 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "js-assertion": "1.0.0"
+    "js-assertion": "0.1.0"
   }
 }

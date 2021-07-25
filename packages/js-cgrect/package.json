@@ -1,6 +1,6 @@
 {
   "name": "js-cgrect",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "JS utilities for managing rects",
   "keywords": [
     "js",
@@ -27,7 +27,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "js-cgpoint": "1.0.0",
-    "js-cgsize": "1.0.0"
+    "js-cgpoint": "0.1.0",
+    "js-cgsize": "0.1.0"
   }
 }
