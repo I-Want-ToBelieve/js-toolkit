@@ -185,7 +185,11 @@ export class CGSize {
   /* -----------------------------------------------------------------------------
    * Validation
    * -----------------------------------------------------------------------------*/
-  static is(value: any): value is CGSize {
+
+  /**
+   * Checks if a value is a CGSizeValue.
+   */
+  static is(value: any): value is CGSizeValue {
     return typeof value === "object" && "width" in value && "height" in value
   }
 }
