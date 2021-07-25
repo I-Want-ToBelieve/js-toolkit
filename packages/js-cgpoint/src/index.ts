@@ -117,6 +117,13 @@ export class CGPoint {
     return JSON.stringify(this.value)
   }
 
+  /**
+   * Returns a string representation of the point
+   */
+  toJSON = () => {
+    return this.value
+  }
+
   /* -----------------------------------------------------------------------------
    * Geometric Methods - Static
    * -----------------------------------------------------------------------------*/

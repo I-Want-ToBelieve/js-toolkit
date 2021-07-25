@@ -77,8 +77,18 @@ export class CGSize {
     return new CGSize(CGSize.zero)
   }
 
+  /**
+   * Returns the string representation of the size.
+   */
   toString = () => {
     return JSON.stringify(this.value)
+  }
+
+  /**
+   * Returns the JSON representation of the size.
+   */
+  toJSON = () => {
+    return this.value
   }
 
   /* -----------------------------------------------------------------------------
