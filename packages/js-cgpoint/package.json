@@ -1,18 +1,18 @@
 {
-  "name": "js-rect",
+  "name": "js-cgpoint",
   "version": "1.0.0",
-  "description": "JS utilities for managing rects",
+  "description": "JS utility to manage a point in a two-dimensional system",
   "keywords": [
     "js",
     "utils",
-    "js-rect"
+    "js-cgpoint"
   ],
   "author": "Segun Adebayo <sage@adebayosegun.com>",
   "homepage": "https://github.com/segunadebayo/js-toolkit#readme",
   "license": "MIT",
-  "main": "dist/js-rect.cjs.js",
-  "module": "dist/js-rect.esm.js",
-  "repository": "https://github.com/segunadebayo/js-tookit/core/tree/main/packages/js-rect",
+  "main": "dist/js-cgpoint.cjs.js",
+  "module": "dist/js-cgpoint.esm.js",
+  "repository": "https://github.com/segunadebayo/js-tookit/core/tree/main/packages/js-cgpoint",
   "sideEffects": false,
   "files": [
     "dist"
@@ -25,5 +25,8 @@
   },
   "scripts": {
     "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "js-assertion": "1.0.0"
   }
 }

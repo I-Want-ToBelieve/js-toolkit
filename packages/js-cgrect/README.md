@@ -1,4 +1,4 @@
-# js-point
+# js-cgrect
 
 A Quick description of the package
 
@@ -7,9 +7,9 @@ A Quick description of the package
 ## Installation
 
 ```sh
-yarn add js-point
+yarn add js-cgrect
 # or
-npm i js-point
+npm i js-cgrect
 ```
 
 ## Contribution
