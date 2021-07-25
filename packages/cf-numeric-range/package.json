@@ -1,0 +1,35 @@
+{
+  "name": "@core-foundation/numeric-range",
+  "version": "0.1.0",
+  "description": "JS utility to manage numeric ranges",
+  "keywords": [
+    "js",
+    "utils",
+    "foundation",
+    "utilities",
+    "range",
+    "numeric",
+    "math",
+    "list",
+    "array"
+  ],
+  "author": "Segun Adebayo <sage@adebayosegun.com>",
+  "homepage": "https://github.com/segunadebayo/js-toolkit#readme",
+  "license": "MIT",
+  "main": "dist/core-foundation-numeric-range.cjs.js",
+  "module": "dist/core-foundation-numeric-range.esm.js",
+  "repository": "https://github.com/segunadebayo/js-tookit/tree/main/packages/cf-numeric-range",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/segunadebayo/js-tookit/issues"
+  },
+  "scripts": {
+    "clean": "rimraf dist"
+  }
+}
