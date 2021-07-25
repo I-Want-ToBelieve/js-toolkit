@@ -1,13 +1,13 @@
-import { Point, PointValue } from "js-cgpoint"
+import { CGPoint, CGPointValue } from "js-cgpoint"
 
 type SizeValue = {
   height: number
   width: number
 }
 
-export type RectValue = PointValue & SizeValue
+export type RectValue = CGPointValue & SizeValue
 
-type RectPoints = [Point, Point, Point, Point]
+type RectPoints = [CGPoint, CGPoint, CGPoint, CGPoint]
 
 /**
  * A structure that contains the location and dimensions of a rectangle.
@@ -42,7 +42,7 @@ export class Rect {
   /**
    * Creates a rectangle from a set of points
    */
-  static fromPoints = (...points: Point[]) => {
+  static fromPoints = (...points: CGPoint[]) => {
     const xValues = points.map((point) => point.x)
     const yValues = points.map((point) => point.y)
 
@@ -79,7 +79,7 @@ export class Rect {
    * A point that specifies the coordinates of the rectangle’s origin.
    */
   get origin() {
-    return new Point({ x: this.x, y: this.y })
+    return new CGPoint({ x: this.x, y: this.y })
   }
 
   /**
@@ -135,7 +135,7 @@ export class Rect {
    * Returns the center point (x, y) of the rectangle
    */
   get center() {
-    return new Point({ x: this.midX, y: this.midY })
+    return new CGPoint({ x: this.midX, y: this.midY })
   }
 
   /**
@@ -143,10 +143,10 @@ export class Rect {
    */
   get corners(): RectPoints {
     return [
-      new Point({ x: this.minX, y: this.minY }),
-      new Point({ x: this.minX, y: this.maxY }),
-      new Point({ x: this.maxX, y: this.minY }),
-      new Point({ x: this.maxX, y: this.maxY }),
+      new CGPoint({ x: this.minX, y: this.minY }),
+      new CGPoint({ x: this.minX, y: this.maxY }),
+      new CGPoint({ x: this.maxX, y: this.minY }),
+      new CGPoint({ x: this.maxX, y: this.maxY }),
     ]
   }
 
@@ -155,10 +155,10 @@ export class Rect {
    */
   get midPoints(): RectPoints {
     return [
-      new Point({ x: this.midX, y: this.minY }),
-      new Point({ x: this.maxX, y: this.midY }),
-      new Point({ x: this.midX, y: this.maxY }),
-      new Point({ x: this.minX, y: this.midY }),
+      new CGPoint({ x: this.midX, y: this.minY }),
+      new CGPoint({ x: this.maxX, y: this.midY }),
+      new CGPoint({ x: this.midX, y: this.maxY }),
+      new CGPoint({ x: this.minX, y: this.midY }),
     ]
   }
 
@@ -182,20 +182,20 @@ export class Rect {
   get edges() {
     return {
       top: [
-        new Point({ x: this.x, y: this.y }),
-        new Point({ x: this.maxX, y: this.y }),
+        new CGPoint({ x: this.x, y: this.y }),
+        new CGPoint({ x: this.maxX, y: this.y }),
       ],
       right: [
-        new Point({ x: this.maxX, y: this.y }),
-        new Point({ x: this.maxX, y: this.maxY }),
+        new CGPoint({ x: this.maxX, y: this.y }),
+        new CGPoint({ x: this.maxX, y: this.maxY }),
       ],
       bottom: [
-        new Point({ x: this.x, y: this.maxY }),
-        new Point({ x: this.maxX, y: this.maxY }),
+        new CGPoint({ x: this.x, y: this.maxY }),
+        new CGPoint({ x: this.maxX, y: this.maxY }),
       ],
       left: [
-        new Point({ x: this.x, y: this.y }),
-        new Point({ x: this.x, y: this.maxY }),
+        new CGPoint({ x: this.x, y: this.y }),
+        new CGPoint({ x: this.x, y: this.maxY }),
       ],
     }
   }
@@ -269,7 +269,7 @@ export class Rect {
   /**
    * Returns whether a rectangle contains a specified point.
    */
-  containsPoint = (point: Point) => {
+  containsPoint = (point: CGPoint) => {
     if (point.x < this.minX) return false
     if (point.x > this.maxX) return false
 
@@ -309,7 +309,7 @@ export class Rect {
   /**
    * Returns the distance of a rect from a point
    */
-  distanceFromPoint = (point: Point) => {
+  distanceFromPoint = (point: CGPoint) => {
     let x = 0
     let y = 0
 
@@ -325,8 +325,8 @@ export class Rect {
       y = point.y - this.maxY
     }
 
-    const to = new Point({ x, y })
-    return Point.distance(to, Point.zero)
+    const to = new CGPoint({ x, y })
+    return CGPoint.distance(to, CGPoint.zero)
   }
 
   /**
