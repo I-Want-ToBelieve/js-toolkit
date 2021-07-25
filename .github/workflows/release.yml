@@ -1,10 +1,12 @@
-name: Release
+name: Publish to NPM
 
 on:
   push:
+    paths:
+      - ".changeset/**"
+      - "packages/**"
     branches:
       - main
-      - next
 
 jobs:
   release:
@@ -21,10 +23,10 @@ jobs:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
 
-      - name: Setup Node.js 12.x
+      - name: Setup Node.js 14.x
         uses: actions/setup-node@master
         with:
-          node-version: 12.x
+          node-version: 14.x
 
       - uses: actions/cache@v2
         name: Load Yarn cache
@@ -39,13 +41,20 @@ jobs:
 
       - name: Setup CI Git User
         run: |
-          git config --global user.email "<email>"
-          git config --global user.name "<name>"
+          git config --global user.email "joseshegs@gmail.com"
+          git config --global user.name "Sage"
+
+      - name: Build packages
+        run: yarn build
+
+      - name: Run tests
+        run: yarn test
 
       - name: Publish packages
         uses: changesets/action@master
         with:
           publish: yarn release
+          commit: "chore(release): version packages"
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
