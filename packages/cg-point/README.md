@@ -1,15 +1,15 @@
-# js-cgpoint
+# @core-graphics/point
 
 A Quick description of the package
-
-> This is an internal utility, not intended for public usage.
 
 ## Installation
 
 ```sh
-yarn add js-cgpoint
+yarn add @core-graphics/point
+
 # or
-npm i js-cgpoint
+npm i @core-graphics/point
+
 ```
 
 ## Contribution

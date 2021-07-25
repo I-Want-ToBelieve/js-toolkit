@@ -1,15 +1,14 @@
-# js-cgline
+# @core-graphics/line
 
 A Quick description of the package
-
-> This is an internal utility, not intended for public usage.
 
 ## Installation
 
 ```sh
-yarn add js-cgline
+yarn add @core-graphics/line
+
 # or
-npm i js-cgline
+npm i @core-graphics/line
 ```
 
 ## Contribution

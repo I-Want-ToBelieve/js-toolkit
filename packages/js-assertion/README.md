@@ -2,8 +2,6 @@
 
 A Quick description of the package
 
-> This is an internal utility, not intended for public usage.
-
 ## Installation
 
 ```sh

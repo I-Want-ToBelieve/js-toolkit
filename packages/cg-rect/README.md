@@ -1,15 +1,13 @@
-# js-cgrect
+# @core-graphics/rect
 
 A Quick description of the package
-
-> This is an internal utility, not intended for public usage.
 
 ## Installation
 
 ```sh
-yarn add js-cgrect
+yarn add @core-graphics/rect
 # or
-npm i js-cgrect
+npm i @core-graphics/rect
 ```
 
 ## Contribution

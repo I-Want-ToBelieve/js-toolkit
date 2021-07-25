@@ -1,15 +1,13 @@
-# js-cgsize
+# @core-graphics/size
 
 A Quick description of the package
-
-> This is an internal utility, not intended for public usage.
 
 ## Installation
 
 ```sh
-yarn add js-cgsize
+yarn add @core-graphics/size
 # or
-npm i js-cgsize
+npm i @core-graphics/size
 ```
 
 ## Contribution
