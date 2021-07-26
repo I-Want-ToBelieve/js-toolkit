@@ -1,6 +1,6 @@
 type RangeTuple = [min: number, max: number]
 
-type FromMultiValueOptions = {
+type FromValuesOptions = {
   min: number
   max: number
   values: number[]
@@ -72,15 +72,15 @@ export class CFNumericRange {
   }
 
   /**
-   * Returns a new range instance based on the specified `[min, max]` range
+   * Creates a range based on the specified `[min, max]` tuple
    */
-  static fromTuple = (range: RangeTuple) => {
-    const [min, max] = range
+  static fromTuple = (tuple: RangeTuple) => {
+    const [min, max] = tuple
     return new CFNumericRange({ min, max })
   }
 
   /**
-   * Creates a new numeric range from the specified min and max
+   * Creates a range from the specified min and max (passed as arguments)
    */
   static create = (min: number, max: number, value?: string | number) => {
     return new CFNumericRange({ min, max, value })
@@ -89,7 +89,7 @@ export class CFNumericRange {
   /**
    * Creates an array of the ranges from array of values
    */
-  static fromMultiValues = (options: FromMultiValueOptions) => {
+  static fromValues = (options: FromValuesOptions) => {
     const { values, min, max } = options
 
     return values
@@ -139,7 +139,7 @@ export class CFNumericRange {
    */
   toString = () => {
     const num = this.valueOf()
-    return toFixed(num, this.decimalCount)
+    return toFixed(num, this.computedPrecision)
   }
 
   /**
@@ -192,7 +192,7 @@ export class CFNumericRange {
   /**
    * Get the decimal count of the range's value
    */
-  get decimalCount() {
+  private get computedPrecision() {
     const num = this.valueOf()
 
     const precision = Number.isNaN(num)
@@ -275,6 +275,11 @@ export class CFNumericRange {
     let value: number | null = this.valueOf()
     value = Math.min(Math.max(value, this.min), this.max)
     this.value = toFixed(value, this.precision)
+    return this
+  }
+
+  toPrecision = () => {
+    this.value = toFixed(this.valueOf(), this.computedPrecision)
     return this
   }
 
