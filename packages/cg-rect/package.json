@@ -1,6 +1,6 @@
 {
   "name": "@core-graphics/rect",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "JS utilities for managing rects",
   "keywords": [
     "js",
@@ -35,7 +35,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@core-graphics/point": "0.1.0",
-    "@core-graphics/size": "0.1.0"
+    "@core-graphics/point": "1.0.0",
+    "@core-graphics/size": "1.0.0"
   }
 }

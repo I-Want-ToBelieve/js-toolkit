@@ -1,6 +1,6 @@
 {
   "name": "@core-foundation/numeric-range",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "JS utility to manage numeric ranges",
   "keywords": [
     "js",

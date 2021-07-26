@@ -1,6 +1,6 @@
 {
   "name": "@core-graphics/point",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "JS utility to manage a point in a two-dimensional system",
   "keywords": [
     "js",

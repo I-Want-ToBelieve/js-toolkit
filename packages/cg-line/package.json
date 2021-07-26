@@ -1,6 +1,6 @@
 {
   "name": "@core-graphics/line",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "JS utilities to convert points to lines",
   "keywords": [
     "js",
@@ -27,6 +27,6 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@core-graphics/point": "0.1.0"
+    "@core-graphics/point": "1.0.0"
   }
 }

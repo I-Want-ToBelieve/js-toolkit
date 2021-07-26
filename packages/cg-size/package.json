@@ -1,6 +1,6 @@
 {
   "name": "@core-graphics/size",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "JS utility for managing width and height values",
   "keywords": [
     "js",
